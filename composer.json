@@ -1,0 +1,20 @@
+{
+    "name": "mage-obsidian/component-modern-frontend",
+    "description": "Modern frontend component for Magento 2",
+    "require": {
+        "mage-obsidian/module-modern-frontend": "^1",
+        "mage-obsidian/module-modern-frontend-cli": "^1"
+    },
+    "type": "magento2-component",
+    "license": [
+        "MIT"
+    ],
+    "extra":{
+        "map": [
+            [
+                "vite",
+                "vite"
+            ]
+        ]
+    }
+}

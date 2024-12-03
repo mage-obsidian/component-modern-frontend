@@ -39,7 +39,7 @@ const buildTheme = (themeName) => {
             process.exit(1);
         }
 
-        process.env.ACTIVE_THEME = themeName;
+        process.env.CURRENT_THEME = themeName;
         executeCommand('vite build');
     } catch (error) {
         console.error(`Failed to build theme "${themeName}":`, error);
@@ -55,7 +55,7 @@ const runDevServer = (themeName) => {
             process.exit(1);
         }
 
-        process.env.ACTIVE_THEME = themeName;
+        process.env.CURRENT_THEME = themeName;
         executeCommand('vite');
     } catch (error) {
         console.error(`Failed to start development server for theme "${themeName}":`, error);

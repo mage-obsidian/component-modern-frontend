@@ -72,7 +72,7 @@ async function getAllJsVueFilesFromTheme(themeName) {
 
 
 function getAllJsVueFilesWithInheritanceCached(themeName) {
-    themeName = themeName ?? process.env.ACTIVE_THEME;
+    themeName = themeName ?? process.env.CURRENT_THEME;
     if (cachedModulesByTheme[themeName]) {
         return cachedModulesByTheme[themeName];
     }
@@ -84,7 +84,7 @@ function getAllJsVueFilesWithInheritanceCached(themeName) {
 }
 
 async function getAllJsVueFilesWithInheritance() {
-    const activeTheme = process.env.ACTIVE_THEME;
+    const activeTheme = process.env.CURRENT_THEME;
     if (cachedModulesByTheme[activeTheme]) {
         return cachedModulesByTheme[activeTheme];
     }

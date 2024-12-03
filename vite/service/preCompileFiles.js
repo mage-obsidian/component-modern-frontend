@@ -1,7 +1,7 @@
 import path from "path";
 import fs from "fs/promises";
 import configResolver from "#service/configResolver.cjs";
-import getThemeConfig from "#service/themeResolver.js";
+import themeResolver from "#service/themeResolverSync.cjs";
 import moduleResolver from "#service/moduleResolver.js";
 import {
     MODULE_WEB_PATH,
@@ -11,29 +11,35 @@ import {
     THEME_CSS_FOLDER
 } from "#config/default.cjs";
 import {resolveFileByTheme} from "#service/moduleResolverSync.cjs";
-const MODULE_CSS_EXTEND_FILE = configResolver.getMagentoConfig().MODULE_CSS_EXTEND_FILE;
-async function getThemeImports(themeName) {
-    const themeConfig = await getThemeConfig.getCssThemeConfig(themeName);
-    const themePath = configResolver.getMagentoConfig().themes[themeName].src;
+
+const { getMagentoConfig, getModuleDefinition, getThemeDefinition } = configResolver;
+const MODULE_CSS_EXTEND_FILE = getMagentoConfig().MODULE_CSS_EXTEND_FILE;
+const THEME_TAILWIND_SOURCE_FILE = getMagentoConfig().THEME_TAILWIND_SOURCE_FILE;
+async function getThemeImports(themeName, themeConfig) {
+    if (!themeConfig) {
+        themeConfig = themeResolver.getThemeConfig(themeName);
+    }
+    const themeDefinition = getThemeDefinition(themeName);
+    const themePath = themeDefinition.src;
 
     let imports = '';
-    if (themeConfig.includeParentThemes && themeConfig.parent) {
-        imports += await getThemeImports(themeConfig.parent);
+    if (themeConfig.includeParentThemes && themeDefinition.parent) {
+        imports += await getThemeImports(themeDefinition.parent, themeConfig);
     }
-    imports += `@import "${path.join(themePath, THEME_MODULE_WEB_PATH, THEME_CSS_FOLDER, configResolver.getMagentoConfig().THEME_TAILWIND_SOURCE_FILE)}";\n`;
+    imports += `@import "${path.join(themePath, THEME_MODULE_WEB_PATH, THEME_CSS_FOLDER, THEME_TAILWIND_SOURCE_FILE)}";\n`;
     return imports;
 }
 
 function resolveModuleCssSourcePath(moduleName, themeName) {
     let moduleConfigSourcePath = resolveFileByTheme(themeName, moduleName, 'css', MODULE_CSS_EXTEND_FILE);
     if (!moduleConfigSourcePath) {
-        const module = configResolver.getMagentoConfig().modules[moduleName];
-        moduleConfigSourcePath = path.join(module.src, MODULE_WEB_PATH, 'css', MODULE_CSS_EXTEND_FILE);
+        const moduleDefinition = getModuleDefinition(moduleName);
+        moduleConfigSourcePath = path.join(moduleDefinition.src, MODULE_WEB_PATH, 'css', MODULE_CSS_EXTEND_FILE);
     }
     return moduleConfigSourcePath;
 }
 async function generateCssImports(themeName) {
-    const themeConfig = await getThemeConfig.getCssThemeConfig(themeName);
+    const themeConfig = themeResolver.getThemeConfig(themeName);
     const excludedModules = new Set(themeConfig.ignoredCssFromModules || []);
     const modulesConfig = configResolver.getModulesConfigArray();
     let cssImports = '';

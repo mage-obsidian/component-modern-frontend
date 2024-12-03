@@ -10,12 +10,11 @@ function getThemeConfigPath(themeSrc) {
     return path.join(themeSrc, THEME_MODULE_WEB_PATH, configResolver.getMagentoConfig().THEME_CONFIG_FILE);
 }
 
-function loadThemeConfig(themeName) {
-    const theme = configResolver.getMagentoConfig().themes[themeName];
-    if (!theme) return null;
+function getThemeDefinition(themeDefinition, themeName) {
+    if (!themeDefinition) return null;
 
     try {
-        const configPath = getThemeConfigPath(theme.src);
+        const configPath = getThemeConfigPath(themeDefinition.src);
         fs.accessSync(configPath, fs.constants.F_OK);
 
         const themeConfig = require(configPath);
@@ -29,20 +28,20 @@ function loadThemeConfig(themeName) {
 function getThemeConfig(themeName) {
     if (themeConfigCache.has(themeName)) return themeConfigCache.get(themeName);
 
-    const theme = configResolver.getMagentoConfig().themes[themeName];
-    if (!theme) return null;
+    const themeDefinition = configResolver.getMagentoConfig().themes[themeName];
+    if (!themeDefinition) return null;
 
-    let themeConfig = loadThemeConfig(themeName);
+    let themeConfig = getThemeDefinition(themeDefinition, themeName);
     if (!themeConfig) return null;
 
     if (themeConfig.tailwind?.content) {
         themeConfig.tailwind.content = themeConfig.tailwind.content.map((content) =>
-            path.join(theme.src, "web", content)
+            path.join(themeDefinition.src, "web", content)
         );
     }
 
-    if (themeConfig.includeParentThemes && theme.parent) {
-        themeConfig = deepmerge(getThemeConfig(theme.parent) || {}, themeConfig);
+    if (themeConfig.includeParentThemes && themeDefinition.parent) {
+        themeConfig = deepmerge(getThemeConfig(themeDefinition.parent) || {}, themeConfig);
     }
 
     themeConfigCache.set(themeName, themeConfig);
@@ -54,5 +53,6 @@ function getTailwindThemeConfig(themeName) {
 }
 
 module.exports = {
-    getThemeConfig
+    getThemeConfig,
+    getTailwindThemeConfig
 };

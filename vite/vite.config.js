@@ -1,29 +1,45 @@
 import {defineConfig} from 'vite';
 import "#service/setupGlobals.js";
 import vue from '@vitejs/plugin-vue';
+import themeResolver from "#service/themeResolverSync.cjs";
 import configResolver from "#service/configResolver.cjs";
-import {OUTPUT_CSS_DIR, PRECOMPILED_FOLDER,} from '#config/default.cjs';
+import { OUTPUT_CSS_DIR, PRECOMPILED_FOLDER } from '#config/default.cjs';
 import moduleResolver from "#service/moduleResolver.js"
 import inheritModuleResolver from '#service/inheritModuleResolver.js'
 import preCompileMagentoFiles from '#service/preCompileMagentoFiles.js';
 import magentoHrmRewrite from "#service/magentoHrmRewrite.js";
 import path from "path";
+import dotenv from 'dotenv';
+dotenv.config();
 
-const ACTIVE_THEME = process.env.ACTIVE_THEME;
+const CURRENT_THEME = process.env.CURRENT_THEME;
 
-let currentTheme = configResolver.getMagentoConfig().themes[ACTIVE_THEME];
+let currentTheme = configResolver.getThemeDefinition(CURRENT_THEME);
 
 let vueFileExt = (process.env.NODE_ENV !== 'production') ? '.js' : '.prod.js';
 let vueFileName = 'vue.esm-browser' + vueFileExt;
 let alisVueFileName = `vue/dist/${vueFileName}`
 
 const outputDir = configResolver.getOutputDirFromTheme(currentTheme.src);
+const rootDir = path.resolve(__dirname, '..');
+const LIB_PATH = configResolver.getMagentoConfig().LIB_PATH;
+
+function resolveLibPath(lib) {
+    return path.join(LIB_PATH, lib);
+}
 
 export default defineConfig(async () => {
-    await preCompileMagentoFiles(ACTIVE_THEME);
+    await preCompileMagentoFiles(CURRENT_THEME);
+    const themeConfig = themeResolver.getThemeConfig(CURRENT_THEME);
+    const inputs = await moduleResolver.getAllJsVueFilesWithInheritanceCached(CURRENT_THEME);
+    inputs[resolveLibPath('vue')] = `${PRECOMPILED_FOLDER}/${CURRENT_THEME}/precompiled.js`;
 
-    const inputs = await moduleResolver.getAllJsVueFilesWithInheritanceCached(ACTIVE_THEME);
-    inputs['lib/vue'] = `${PRECOMPILED_FOLDER}/${process.env.ACTIVE_THEME}/precompiled.js`;
+    if (themeConfig.exposeNpmPackages) {
+        themeConfig.exposeNpmPackages.forEach((lib) => {
+            inputs[resolveLibPath(lib.exposePath)] = lib.package;
+        })
+    }
+
     return {
         root: './',
         base: './',
@@ -59,18 +75,20 @@ export default defineConfig(async () => {
                 ...(inputs),
                 vue: alisVueFileName,
                 '#': path.resolve(__dirname, 'node_modules'),
-
             }
         },
         server: {
-            host: 'phpfpm',
+            host: process.env.VITE_SERVER_HOST,
+            port: process.env.VITE_SERVER_PORT,
             fs: {
-                allow: ['/var/www/html'],
+                allow: [
+                    rootDir
+                ],
             },
             hmr: {
-                host: 'magento.test',
-                protocol: 'wss',
-                path: '/__vite_ping',
+                host: process.env.MAGENTO_HOST,
+                protocol: process.env.VITE_SERVER_SECURE ? 'wss' : 'ws',
+                path: process.env.VITE_HMR_PATH ,
             }
         },
         appType: 'mpa'

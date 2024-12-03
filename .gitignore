@@ -6,3 +6,5 @@
 **/node_modules
 .phpunit.result.cache
 .idea
+.env
+.env.local

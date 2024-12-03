@@ -19,11 +19,21 @@ const getAllMagentoModulesEnabled = () => MAGENTO_CONFIG.allModules;
 const isDev = () => MAGENTO_CONFIG.mode !== 'production';
 const getOutputDirFromTheme = (themePath) => path.resolve(themePath, OUTPUT_THEME_DIR);
 
+const getModuleDefinition = (moduleName) => {
+    return MAGENTO_CONFIG.modules[moduleName];
+}
+
+const getThemeDefinition = (themeName) => {
+    return MAGENTO_CONFIG.themes[themeName];
+}
+
 module.exports = {
     getMagentoConfig: () => MAGENTO_CONFIG,
     getModulesConfigArray,
     getThemesConfigArray,
     getAllMagentoModulesEnabled,
     isDev,
-    getOutputDirFromTheme
+    getOutputDirFromTheme,
+    getThemeDefinition,
+    getModuleDefinition
 };

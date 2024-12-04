@@ -25,10 +25,11 @@
     "postcss": "^8.4.49",
     "tailwindcss": "^3.4.15",
     "vite": "^5.4.11",
-    "vue": "^3.5.13"
+    "vue": "^3.5.13",
+    "dotenv": "^16.4.7",
+    "mage-obsidian": "^1.0.0"
   },
   "type": "module",
   "dependencies": {
-    "mage-obsidian": "^1.0.0"
   }
 }

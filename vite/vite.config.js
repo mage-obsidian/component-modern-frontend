@@ -1,13 +1,13 @@
 import {defineConfig} from 'vite';
-import "#service/setupGlobals.js";
+import "mage-obsidian/service/setupGlobals.js";
 import vue from '@vitejs/plugin-vue';
-import themeResolver from "#service/themeResolverSync.cjs";
-import configResolver from "#service/configResolver.cjs";
-import { OUTPUT_CSS_DIR, PRECOMPILED_FOLDER } from '#config/default.cjs';
-import moduleResolver from "#service/moduleResolver.js"
-import inheritModuleResolver from '#service/inheritModuleResolver.js'
-import preCompileMagentoFiles from '#service/preCompileMagentoFiles.js';
-import magentoHrmRewrite from "#service/magentoHrmRewrite.js";
+import themeResolver from "mage-obsidian/service/themeResolverSync.cjs";
+import configResolver from "mage-obsidian/service/configResolver.cjs";
+import { OUTPUT_CSS_DIR, PRECOMPILED_FOLDER } from 'mage-obsidian/config/default.cjs';
+import moduleResolver from "mage-obsidian/service/moduleResolver.js"
+import inheritModuleResolver from 'mage-obsidian/service/inheritModuleResolver.js'
+import preCompileMagentoFiles from 'mage-obsidian/service/preCompileMagentoFiles.js';
+import magentoHrmRewrite from "mage-obsidian/service/magentoHrmRewrite.js";
 import path from "path";
 import dotenv from 'dotenv';
 dotenv.config();
@@ -39,7 +39,6 @@ export default defineConfig(async () => {
             inputs[resolveLibPath(lib.exposePath)] = lib.package;
         })
     }
-
     return {
         root: './',
         base: './',

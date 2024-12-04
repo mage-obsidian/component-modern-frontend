@@ -1,5 +1,5 @@
-import moduleResolver from "#service/moduleResolver.js";
-import tailwindResolver from "#service/tailwindResolver.cjs";
+import moduleResolver from "./node_modules/mage-obsidian/src/service/moduleResolver.js";
+import tailwindResolver from "./node_modules/mage-obsidian/src/service/tailwindResolver.cjs";
 import deepmerge from "deepmerge";
 
 const CURRENT_THEME = process.env.CURRENT_THEME;

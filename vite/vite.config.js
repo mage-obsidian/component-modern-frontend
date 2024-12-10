@@ -3,13 +3,15 @@ import "mage-obsidian/service/setupGlobals.js";
 import vue from '@vitejs/plugin-vue';
 import themeResolver from "mage-obsidian/service/themeResolverSync.cjs";
 import configResolver from "mage-obsidian/service/configResolver.cjs";
-import { OUTPUT_CSS_DIR, PRECOMPILED_FOLDER } from 'mage-obsidian/config/default.cjs';
+import {OUTPUT_CSS_DIR, PRECOMPILED_FOLDER} from 'mage-obsidian/config/default.cjs';
 import moduleResolver from "mage-obsidian/service/moduleResolver.js"
 import inheritModuleResolver from 'mage-obsidian/service/inheritModuleResolver.js'
+import inheritAssetsModuleResolver from 'mage-obsidian/service/inheritAssetsModuleResolver.js'
 import preCompileMagentoFiles from 'mage-obsidian/service/preCompileMagentoFiles.js';
 import magentoHrmRewrite from "mage-obsidian/service/magentoHrmRewrite.js";
 import path from "path";
 import dotenv from 'dotenv';
+
 dotenv.config();
 
 const CURRENT_THEME = process.env.CURRENT_THEME;
@@ -44,6 +46,7 @@ export default defineConfig(async () => {
         base: './',
         plugins: [
             inheritModuleResolver(),
+            inheritAssetsModuleResolver(),
             vue(),
             magentoHrmRewrite(),
         ],
@@ -73,7 +76,7 @@ export default defineConfig(async () => {
             alias: {
                 ...(inputs),
                 vue: alisVueFileName,
-                '#': path.resolve(__dirname, 'node_modules'),
+                '#': path.resolve(__dirname, 'node_modules')
             }
         },
         server: {
@@ -87,7 +90,7 @@ export default defineConfig(async () => {
             hmr: {
                 host: process.env.MAGENTO_HOST,
                 protocol: process.env.VITE_SERVER_SECURE ? 'wss' : 'ws',
-                path: process.env.VITE_HMR_PATH ,
+                path: process.env.VITE_HMR_PATH,
             }
         },
         appType: 'mpa'

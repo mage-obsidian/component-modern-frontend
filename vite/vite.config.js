@@ -25,10 +25,22 @@ let alisVueFileName = `vue/dist/${vueFileName}`
 const outputDir = configResolver.getOutputDirFromTheme(currentTheme.src);
 const rootDir = path.resolve(__dirname, '..');
 const LIB_PATH = configResolver.getMagentoConfig().LIB_PATH;
+const MODE = process.env.NODE_ENV;
 
 function resolveLibPath(lib) {
     return path.join(LIB_PATH, lib);
 }
+
+function resolveNodePath(packageName) {
+    try {
+        const resolvedPath = import.meta.resolve(packageName);
+        return resolvedPath.replace('file://', '');
+    } catch (error) {
+        console.error(`No se pudo resolver el paquete: ${packageName}`);
+        throw error;
+    }
+}
+
 
 export default defineConfig(async () => {
     await preCompileMagentoFiles(CURRENT_THEME);
@@ -38,7 +50,7 @@ export default defineConfig(async () => {
 
     if (themeConfig.exposeNpmPackages) {
         themeConfig.exposeNpmPackages.forEach((lib) => {
-            inputs[resolveLibPath(lib.exposePath)] = lib.package;
+            inputs[resolveLibPath(lib.exposePath)] = MODE === 'production' ? lib.package : resolveNodePath(lib.exposePath);
         })
     }
     return {
@@ -76,7 +88,8 @@ export default defineConfig(async () => {
             alias: {
                 ...(inputs),
                 vue: alisVueFileName,
-                '#': path.resolve(__dirname, 'node_modules')
+                '#': path.resolve(__dirname, 'node_modules'),
+                '@vueuse/core': '@vueuse/core/index.mjs',
             }
         },
         server: {

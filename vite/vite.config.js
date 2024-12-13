@@ -9,6 +9,7 @@ import inheritModuleResolver from 'mage-obsidian/service/inheritModuleResolver.j
 import inheritAssetsModuleResolver from 'mage-obsidian/service/inheritAssetsModuleResolver.js'
 import preCompileMagentoFiles from 'mage-obsidian/service/preCompileMagentoFiles.js';
 import magentoHrmRewrite from "mage-obsidian/service/magentoHrmRewrite.js";
+import defaultNodeResolve from 'mage-obsidian/service/defaultNodeResolver.js';
 import path from "path";
 import dotenv from 'dotenv';
 
@@ -20,7 +21,7 @@ let currentTheme = configResolver.getThemeDefinition(CURRENT_THEME);
 
 let vueFileExt = (process.env.NODE_ENV !== 'production') ? '.js' : '.prod.js';
 let vueFileName = 'vue.esm-browser' + vueFileExt;
-let alisVueFileName = `vue/dist/${vueFileName}`
+let aliasVueFileName = `vue/dist/${vueFileName}`
 
 const outputDir = configResolver.getOutputDirFromTheme(currentTheme.src);
 const rootDir = path.resolve(__dirname, '..');
@@ -61,6 +62,7 @@ export default defineConfig(async () => {
             inheritAssetsModuleResolver(),
             vue(),
             magentoHrmRewrite(),
+            defaultNodeResolve
         ],
         build: {
             cssCodeSplit: false,
@@ -86,10 +88,7 @@ export default defineConfig(async () => {
         },
         resolve: {
             alias: {
-                ...(inputs),
-                vue: alisVueFileName,
-                '#': path.resolve(__dirname, 'node_modules'),
-                '@vueuse/core': '@vueuse/core/index.mjs',
+                vue: aliasVueFileName
             }
         },
         server: {

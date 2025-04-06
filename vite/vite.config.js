@@ -12,6 +12,7 @@ import magentoHrmRewrite from "mage-obsidian/service/magentoHrmRewrite.js";
 import defaultNodeResolve from 'mage-obsidian/service/defaultNodeResolver.js';
 import path from "path";
 import dotenv from 'dotenv';
+import tailwindcss from '@tailwindcss/vite'
 
 dotenv.config();
 
@@ -20,11 +21,14 @@ const CURRENT_THEME = process.env.CURRENT_THEME;
 let currentTheme = configResolver.getThemeDefinition(CURRENT_THEME);
 
 let vueFileExt = (process.env.NODE_ENV !== 'production') ? '.js' : '.prod.js';
+
 let vueFileName = 'vue.esm-browser' + vueFileExt;
 let aliasVueFileName = `vue/dist/${vueFileName}`
-
 const outputDir = configResolver.getOutputDirFromTheme(currentTheme.src);
+
 const rootDir = path.resolve(__dirname, '..');
+const rootViteDir = path.resolve(__dirname);
+process.env.NODE_PATH = path.resolve(rootViteDir, 'node_modules/');
 const LIB_PATH = configResolver.getMagentoConfig().LIB_PATH;
 const MODE = process.env.NODE_ENV;
 
@@ -43,6 +47,8 @@ function resolveNodePath(packageName) {
 }
 
 
+console.log(rootViteDir);
+
 export default defineConfig(async () => {
     await preCompileMagentoFiles(CURRENT_THEME);
     const themeConfig = themeResolver.getThemeConfig(CURRENT_THEME);
@@ -55,14 +61,21 @@ export default defineConfig(async () => {
         })
     }
     return {
-        root: './',
-        base: './',
+        root: rootViteDir,
+        base: rootViteDir,
         plugins: [
             inheritModuleResolver(),
             inheritAssetsModuleResolver(),
             vue(),
             magentoHrmRewrite(),
-            defaultNodeResolve
+            defaultNodeResolve,
+            {
+                name: "@tailwindcss/vite:generate", apply: "build", enforce: "pre", async transform(n, a) {
+                    // console.log('transform', n, a);
+                    // console.log('tt')
+                }
+            },
+            tailwindcss(),
         ],
         build: {
             cssCodeSplit: false,
@@ -88,7 +101,8 @@ export default defineConfig(async () => {
         },
         resolve: {
             alias: {
-                vue: aliasVueFileName
+                vue: aliasVueFileName,
+                '@NODE/': path.resolve(rootViteDir, 'node_modules/'),
             }
         },
         server: {

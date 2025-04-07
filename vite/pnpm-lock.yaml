@@ -65,8 +65,8 @@ importers:
         specifier: ^1.8.0
         version: 1.8.0
       mage-obsidian:
-        specifier: ^1.0.7
-        version: 1.0.7(@types/node@22.14.0)
+        specifier: ^1.0.11
+        version: 1.0.11(@types/node@22.14.0)
       patch-package:
         specifier: ^8.0.0
         version: 8.0.0
@@ -1719,8 +1719,8 @@ packages:
   lru-cache@5.1.1:
     resolution: {integrity: sha512-KpNARQA3Iwv+jTA0utUVVbrh+Jlrr1Fv0e56GGzAFOXN7dk/FviaDW8LHmK52DlcH4WP2n6gI8vN1aesBFgo9w==}
 
-  mage-obsidian@1.0.7:
-    resolution: {integrity: sha512-oaO1Py/av3PaPM8xsd2xK5713itN0hiIwOX80nGdH5ocjRJ4bUBsEzt378pUOqgTJ93V+EiHnN1acov6BRGf0A==}
+  mage-obsidian@1.0.11:
+    resolution: {integrity: sha512-77Xr0EbCb2a9rEZW+x48vdXvmqiPsJbg+piH7Cd2ijaAMcjraTqy5O8bv3gmM82eqiXxMoD2fgkkCO4eklmUxA==}
     hasBin: true
 
   magic-string@0.30.17:
@@ -4174,9 +4174,10 @@ snapshots:
     dependencies:
       yallist: 3.1.1
 
-  mage-obsidian@1.0.7(@types/node@22.14.0):
+  mage-obsidian@1.0.11(@types/node@22.14.0):
     dependencies:
       chalk: 5.4.1
+      commander: 13.1.0
       deepmerge: 4.3.1
       jest: 29.7.0(@types/node@22.14.0)
       jest-environment-node: 29.7.0

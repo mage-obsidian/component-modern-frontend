@@ -1,9 +1,9 @@
 import {defineConfig} from 'vite';
 import "mage-obsidian/service/setupGlobals.js";
 import vue from '@vitejs/plugin-vue';
-import themeResolver from "mage-obsidian/service/themeResolverSync.cjs";
-import configResolver from "mage-obsidian/service/configResolver.cjs";
-import {OUTPUT_CSS_DIR, PRECOMPILED_FOLDER} from 'mage-obsidian/config/default.cjs';
+import themeResolver from "mage-obsidian/service/themeResolverSync.js";
+import configResolver from "mage-obsidian/service/configResolver.js";
+import {OUTPUT_CSS_DIR, PRECOMPILED_FOLDER} from 'mage-obsidian/config/default.js';
 import moduleResolver from "mage-obsidian/service/moduleResolver.js"
 import inheritModuleResolver from 'mage-obsidian/service/inheritModuleResolver.js'
 import inheritAssetsModuleResolver from 'mage-obsidian/service/inheritAssetsModuleResolver.js'
@@ -27,8 +27,6 @@ let aliasVueFileName = `vue/dist/${vueFileName}`
 const outputDir = configResolver.getOutputDirFromTheme(currentTheme.src);
 
 const rootDir = path.resolve(__dirname, '..');
-const rootViteDir = path.resolve(__dirname);
-process.env.NODE_PATH = path.resolve(rootViteDir, 'node_modules/');
 const LIB_PATH = configResolver.getMagentoConfig().LIB_PATH;
 const MODE = process.env.NODE_ENV;
 
@@ -46,9 +44,6 @@ function resolveNodePath(packageName) {
     }
 }
 
-
-console.log(rootViteDir);
-
 export default defineConfig(async () => {
     await preCompileMagentoFiles(CURRENT_THEME);
     const themeConfig = themeResolver.getThemeConfig(CURRENT_THEME);
@@ -61,8 +56,8 @@ export default defineConfig(async () => {
         })
     }
     return {
-        root: rootViteDir,
-        base: rootViteDir,
+        root: './',
+        base: './',
         plugins: [
             inheritModuleResolver(),
             inheritAssetsModuleResolver(),
@@ -101,8 +96,7 @@ export default defineConfig(async () => {
         },
         resolve: {
             alias: {
-                vue: aliasVueFileName,
-                '@NODE/': path.resolve(rootViteDir, 'node_modules/'),
+                vue: aliasVueFileName
             }
         },
         server: {

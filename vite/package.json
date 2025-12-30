@@ -30,7 +30,7 @@
         "dotenv": "^16.5.0",
         "esbuild-register": "^3.6.0",
         "ky": "^1.8.1",
-        "mage-obsidian": "^1.0.11",
+        "mage-obsidian": "^1.1.0",
         "patch-package": "^8.0.0",
         "pinia": "^3.0.3",
         "pinia-plugin-persistedstate": "^4.3.0",

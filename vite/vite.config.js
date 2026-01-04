@@ -44,6 +44,12 @@ function resolveNodePath(packageName) {
     }
 }
 
+let ALLOWED_HOSTS = [process.env.VITE_SERVER_HOST];
+if (process.env.VITE_SERVER_ALLOWED_HOSTS) {
+    const extraHosts = process.env.VITE_SERVER_ALLOWED_HOSTS.split(',').map(host => host.trim());
+    ALLOWED_HOSTS.push(...extraHosts);
+}
+
 export default defineConfig(async () => {
     await preCompileMagentoFiles(CURRENT_THEME);
     const themeConfig = themeResolver.getThemeConfig(CURRENT_THEME);
@@ -102,6 +108,7 @@ export default defineConfig(async () => {
         server: {
             host: process.env.VITE_SERVER_HOST,
             port: process.env.VITE_SERVER_PORT,
+            allowedHosts: ALLOWED_HOSTS,
             fs: {
                 allow: [
                     rootDir

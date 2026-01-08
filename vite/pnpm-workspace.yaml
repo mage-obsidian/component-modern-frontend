@@ -1,0 +1,23 @@
+# pnpm 11 reads project settings from this file (the package.json "pnpm"
+# field is no longer honored).
+
+# esbuild ships a native binary and needs its install script to run.
+allowBuilds:
+  esbuild: true
+
+# pnpm 11 enables a default supply-chain "minimum release age" policy that
+# rejects very recently published packages. It blocks transitive deps that
+# publish daily (e.g. electron-to-chromium via browserslist), which breaks
+# `pnpm install`. This is a local dev environment, so the age gate is off.
+minimumReleaseAge: 0
+
+# node_modules lives in a bind mount; keep the store on the container's own
+# filesystem and pin it so EVERY pnpm invocation agrees on the store path.
+# Without this, an install run with a different store dir makes the next
+# `pnpm run` see node_modules as stale and try to purge+reinstall it.
+storeDir: /home/www/.pnpm-store-jpu
+
+# Do not auto-purge/reinstall node_modules before `pnpm run` (e.g. `pnpm
+# dev:theme`, which `zento vite` invokes). Reinstalls aborts with no TTY and
+# the dev server must just start against the already-installed deps.
+verifyDepsBeforeRun: false

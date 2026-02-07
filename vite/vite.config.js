@@ -44,6 +44,12 @@ function resolveNodePath(packageName) {
     }
 }
 
+// Env vars are strings: 'false' is truthy, so a naive check would always pick
+// 'wss'. Treat only explicit truthy tokens as secure.
+const VITE_SERVER_SECURE = ['true', '1', 'yes', 'on'].includes(
+    String(process.env.VITE_SERVER_SECURE ?? '').trim().toLowerCase()
+);
+
 let ALLOWED_HOSTS = [process.env.VITE_SERVER_HOST];
 if (process.env.VITE_SERVER_ALLOWED_HOSTS) {
     const extraHosts = process.env.VITE_SERVER_ALLOWED_HOSTS.split(',').map(host => host.trim());
@@ -116,7 +122,7 @@ export default defineConfig(async () => {
             },
             hmr: {
                 host: process.env.MAGENTO_HOST,
-                protocol: process.env.VITE_SERVER_SECURE ? 'wss' : 'ws',
+                protocol: VITE_SERVER_SECURE ? 'wss' : 'ws',
                 path: process.env.VITE_HMR_PATH,
             }
         },

@@ -1,5 +1,4 @@
 import {defineConfig} from 'vite';
-import "mage-obsidian/service/setupGlobals.js";
 import vue from '@vitejs/plugin-vue';
 import themeResolver from "mage-obsidian/service/themeResolverSync.js";
 import configResolver from "mage-obsidian/service/configResolver.js";

@@ -2,10 +2,10 @@
     "name": "vite",
     "version": "1.0.0",
     "scripts": {
-        "dev": "node ./node_modules/mage-obsidian/src/scripts/buildThemes.js --dev-server",
-        "dev:theme": "node ./node_modules/mage-obsidian/src/scripts/buildThemes.js --dev-server --theme",
-        "build": "NODE_ENV=production node ./node_modules/mage-obsidian/src/scripts/buildThemes.js --theme all",
-        "build:theme": "NODE_ENV=production node ./node_modules/mage-obsidian/src/scripts/buildThemes.js --theme",
+        "dev": "node ./node_modules/mage-obsidian/src/cli/buildThemes.js --dev-server",
+        "dev:theme": "node ./node_modules/mage-obsidian/src/cli/buildThemes.js --dev-server --theme",
+        "build": "NODE_ENV=production node ./node_modules/mage-obsidian/src/cli/buildThemes.js --theme all",
+        "build:theme": "NODE_ENV=production node ./node_modules/mage-obsidian/src/cli/buildThemes.js --theme",
         "postinstall": "patch-package"
     },
     "keywords": [],
@@ -31,7 +31,7 @@
         "dotenv": "^16.6.1",
         "esbuild-register": "^3.6.0",
         "ky": "^1.14.2",
-        "mage-obsidian": "^1.1.2",
+        "mage-obsidian": "^2.0.0",
         "patch-package": "^8.0.1",
         "pinia": "^3.0.4",
         "pinia-plugin-persistedstate": "^4.7.1",

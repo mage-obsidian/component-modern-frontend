@@ -1,0 +1,19 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  syntax:
+    name: Syntax-check vite harness
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      # Parse-only check: validates ESM syntax without resolving the
+      # mage-obsidian package (not installed in CI).
+      - name: Syntax-check vite.config.js
+        run: node --check vite/vite.config.js

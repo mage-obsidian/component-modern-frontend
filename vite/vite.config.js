@@ -4,11 +4,8 @@ import themeResolver from "mage-obsidian/core/themeResolverSync.js";
 import configResolver from "mage-obsidian/core/configResolver.js";
 import {OUTPUT_CSS_DIR, PRECOMPILED_FOLDER} from 'mage-obsidian/config/default.js';
 import moduleResolver from "mage-obsidian/core/moduleResolver.js"
-import inheritModuleResolver from 'mage-obsidian/vite/inheritModuleResolver.js'
-import inheritAssetsModuleResolver from 'mage-obsidian/vite/inheritAssetsModuleResolver.js'
-import preCompileMagentoFiles from 'mage-obsidian/core/preCompileMagentoFiles.js';
+import {getResolverPlugins, ensurePrecompiled, getFsAllowList} from 'mage-obsidian/vite/sharedPlugins.js';
 import magentoHrmRewrite from "mage-obsidian/vite/magentoHrmRewrite.js";
-import defaultNodeResolve from 'mage-obsidian/vite/defaultNodeResolver.js';
 import path from "path";
 import dotenv from 'dotenv';
 import tailwindcss from '@tailwindcss/vite'
@@ -56,7 +53,7 @@ if (process.env.VITE_SERVER_ALLOWED_HOSTS) {
 }
 
 export default defineConfig(async () => {
-    await preCompileMagentoFiles(CURRENT_THEME);
+    await ensurePrecompiled(CURRENT_THEME);
     const themeConfig = themeResolver.getThemeConfig(CURRENT_THEME);
     const inputs = await moduleResolver.getAllJsVueFilesWithInheritanceCached(CURRENT_THEME);
     inputs[resolveLibPath('vue')] = `${PRECOMPILED_FOLDER}/${CURRENT_THEME}/precompiled.js`;
@@ -70,11 +67,9 @@ export default defineConfig(async () => {
         root: './',
         base: './',
         plugins: [
-            inheritModuleResolver(),
-            inheritAssetsModuleResolver(),
+            ...getResolverPlugins(),
             vue(),
             magentoHrmRewrite(),
-            defaultNodeResolve,
             {
                 name: "@tailwindcss/vite:generate", apply: "build", enforce: "pre", async transform(n, a) {
                     // console.log('transform', n, a);
@@ -115,9 +110,7 @@ export default defineConfig(async () => {
             port: process.env.VITE_SERVER_PORT,
             allowedHosts: ALLOWED_HOSTS,
             fs: {
-                allow: [
-                    rootDir
-                ],
+                allow: getFsAllowList(rootDir),
             },
             hmr: {
                 host: process.env.MAGENTO_HOST,

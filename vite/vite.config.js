@@ -1,11 +1,12 @@
 import {defineConfig} from 'vite';
 import vue from '@vitejs/plugin-vue';
-import themeResolver from "mage-obsidian/core/themeResolverSync.js";
-import configResolver from "mage-obsidian/core/configResolver.js";
-import {OUTPUT_CSS_DIR, PRECOMPILED_FOLDER} from 'mage-obsidian/config/default.js';
-import moduleResolver from "mage-obsidian/core/moduleResolver.js"
-import {getResolverPlugins, ensurePrecompiled, getFsAllowList} from 'mage-obsidian/vite/sharedPlugins.js';
-import magentoHrmRewrite from "mage-obsidian/vite/magentoHrmRewrite.js";
+import themeResolver from "mage-obsidian/core/themeResolverSync.ts";
+import configResolver from "mage-obsidian/core/configResolver.ts";
+import {OUTPUT_CSS_DIR, PRECOMPILED_FOLDER} from 'mage-obsidian/config/default.ts';
+import moduleResolver from "mage-obsidian/core/moduleResolver.ts"
+import {getResolverPlugins, ensurePrecompiled, getFsAllowList} from 'mage-obsidian/vite/sharedPlugins.ts';
+import themeSourceWatcher from "mage-obsidian/vite/themeSourceWatcher.ts";
+import magentoHrmRewrite from "mage-obsidian/vite/magentoHrmRewrite.ts";
 import path from "path";
 import dotenv from 'dotenv';
 import tailwindcss from '@tailwindcss/vite'
@@ -54,13 +55,20 @@ if (process.env.VITE_SERVER_ALLOWED_HOSTS) {
 
 export default defineConfig(async () => {
     await ensurePrecompiled(CURRENT_THEME);
-    const themeConfig = themeResolver.getThemeConfig(CURRENT_THEME);
+    const themeConfig = await themeResolver.getThemeConfig(CURRENT_THEME);
     const inputs = await moduleResolver.getAllJsVueFilesWithInheritanceCached(CURRENT_THEME);
     inputs[resolveLibPath('vue')] = `${PRECOMPILED_FOLDER}/${CURRENT_THEME}/precompiled.js`;
 
+    // Exposed packages must resolve from any importer — including JS shipped by
+    // a module whose real path is symlinked outside the Magento root's
+    // node_modules. Aliasing each to its resolved node path (like vue) makes
+    // `import 'pinia'` / '@vueuse/core' work everywhere and resolve to a single
+    // shared instance, instead of only resolving from theme-level files.
+    const exposedAlias = {vue: aliasVueFileName};
     if (themeConfig.exposeNpmPackages) {
         themeConfig.exposeNpmPackages.forEach((lib) => {
             inputs[resolveLibPath(lib.exposePath)] = MODE === 'production' ? lib.package : resolveNodePath(lib.exposePath);
+            exposedAlias[lib.package] = resolveNodePath(lib.exposePath);
         })
     }
     return {
@@ -68,6 +76,7 @@ export default defineConfig(async () => {
         base: './',
         plugins: [
             ...getResolverPlugins(),
+            themeSourceWatcher(CURRENT_THEME),
             vue(),
             magentoHrmRewrite(),
             {
@@ -101,9 +110,7 @@ export default defineConfig(async () => {
             ssr: false,
         },
         resolve: {
-            alias: {
-                vue: aliasVueFileName
-            }
+            alias: exposedAlias
         },
         server: {
             host: process.env.VITE_SERVER_HOST,

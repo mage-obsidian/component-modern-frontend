@@ -2,11 +2,10 @@
     "name": "vite",
     "version": "1.0.0",
     "scripts": {
-        "dev": "node ./node_modules/mage-obsidian/src/cli/buildThemes.js --dev-server",
-        "dev:theme": "node ./node_modules/mage-obsidian/src/cli/buildThemes.js --dev-server --theme",
-        "build": "NODE_ENV=production node ./node_modules/mage-obsidian/src/cli/buildThemes.js --theme all",
-        "build:theme": "NODE_ENV=production node ./node_modules/mage-obsidian/src/cli/buildThemes.js --theme",
-        "postinstall": "patch-package"
+        "dev": "node ./node_modules/mage-obsidian/src/cli/buildThemes.ts --dev-server",
+        "dev:theme": "node ./node_modules/mage-obsidian/src/cli/buildThemes.ts --dev-server --theme",
+        "build": "NODE_ENV=production node ./node_modules/mage-obsidian/src/cli/buildThemes.ts --theme all",
+        "build:theme": "NODE_ENV=production node ./node_modules/mage-obsidian/src/cli/buildThemes.ts --theme"
     },
     "keywords": [],
     "author": "",
@@ -18,12 +17,12 @@
         "@tailwindcss/aspect-ratio": "^0.4.2",
         "@tailwindcss/forms": "^0.5.11",
         "@tailwindcss/line-clamp": "^0.4.4",
-        "@tailwindcss/node": "^4.1.18",
-        "@tailwindcss/postcss": "^4.1.18",
+        "@tailwindcss/node": "^4.3.1",
+        "@tailwindcss/postcss": "^4.3.1",
         "@tailwindcss/typography": "^0.5.19",
-        "@tailwindcss/vite": "^4.1.18",
-        "@vitejs/plugin-vue": "^5.2.4",
-        "@vueuse/core": "^13.9.0",
+        "@tailwindcss/vite": "^4.3.1",
+        "@vitejs/plugin-vue": "^6.0.7",
+        "@vueuse/core": "^14.3.0",
         "autoprefixer": "^10.4.23",
         "axios": "^1.13.2",
         "commander": "^14.0.2",
@@ -31,16 +30,18 @@
         "dotenv": "^16.6.1",
         "esbuild-register": "^3.6.0",
         "ky": "^1.14.2",
-        "mage-obsidian": "^2.0.0",
-        "patch-package": "^8.0.1",
+        "mage-obsidian": "link:/home/jeanmarcos/Development_self/ObsidianProject/js-package-utils",
         "pinia": "^3.0.4",
         "pinia-plugin-persistedstate": "^4.7.1",
         "postcss": "^8.5.6",
         "postcss-import": "^16.1.1",
-        "postinstall-postinstall": "^2.1.0",
-        "tailwindcss": "^4.1.18",
-        "vite": "^6.4.1",
-        "vue": "^3.5.26"
+        "tailwindcss": "^4.3.1",
+        "vite": "^8.0.16",
+        "vue": "^3.5.38"
     },
-    "packageManager": "pnpm@9.14.4+sha512.c8180b3fbe4e4bca02c94234717896b5529740a6cbadf19fa78254270403ea2f27d4e1d46a08a0f56c89b63dc8ebfd3ee53326da720273794e6200fcf0d184ab"
+    "packageManager": "pnpm@11.7.0",
+    "devDependencies": {
+        "typescript": "^5.9.3",
+        "vue-tsc": "^2.2.12"
+    }
 }

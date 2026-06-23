@@ -104,6 +104,19 @@ export default defineConfig(async () => {
                     }
                 },
                 preserveEntrySignatures: 'strict',
+                // @vueuse/core ships `/* #__PURE__ */` annotations in positions
+                // rolldown cannot interpret; it ignores the annotation and the
+                // build stays correct. Silence only that upstream noise so our
+                // own build warnings remain visible.
+                onwarn(warning, defaultHandler) {
+                    if (
+                        warning.code === 'INVALID_ANNOTATION' &&
+                        String(warning.message ?? '').includes('@vueuse')
+                    ) {
+                        return;
+                    }
+                    defaultHandler(warning);
+                },
             },
             outDir: outputDir,
             emptyOutDir: true,

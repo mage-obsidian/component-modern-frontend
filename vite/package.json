@@ -30,7 +30,7 @@
         "dotenv": "^16.6.1",
         "esbuild-register": "^3.6.0",
         "ky": "^1.14.2",
-        "mage-obsidian": "link:/home/jeanmarcos/Development_self/ObsidianProject/js-package-utils",
+        "mage-obsidian": "^2.0.0",
         "pinia": "^3.0.4",
         "pinia-plugin-persistedstate": "^4.7.1",
         "postcss": "^8.5.6",

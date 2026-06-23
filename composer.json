@@ -2,9 +2,9 @@
     "name": "mage-obsidian/component-modern-frontend",
     "description": "Modern frontend component for Magento 2",
     "require": {
-        "mage-obsidian/module-modern-frontend": "^1",
-        "mage-obsidian/module-modern-frontend-cli": "^1",
-        "mage-obsidian/module-modern-frontend-twig": "^1"
+        "mage-obsidian/module-modern-frontend": "^2.0",
+        "mage-obsidian/module-modern-frontend-cli": "^2.0",
+        "mage-obsidian/module-modern-frontend-twig": "^2.0"
     },
     "type": "magento2-component",
     "license": [

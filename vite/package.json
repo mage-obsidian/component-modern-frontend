@@ -2,10 +2,10 @@
     "name": "vite",
     "version": "1.0.0",
     "scripts": {
-        "dev": "node ./node_modules/mage-obsidian/src/cli/buildThemes.ts --dev-server",
-        "dev:theme": "node ./node_modules/mage-obsidian/src/cli/buildThemes.ts --dev-server --theme",
-        "build": "NODE_ENV=production node ./node_modules/mage-obsidian/src/cli/buildThemes.ts --theme all",
-        "build:theme": "NODE_ENV=production node ./node_modules/mage-obsidian/src/cli/buildThemes.ts --theme"
+        "dev": "node ./node_modules/mage-obsidian/dist/cli/buildThemes.js --dev-server",
+        "dev:theme": "node ./node_modules/mage-obsidian/dist/cli/buildThemes.js --dev-server --theme",
+        "build": "NODE_ENV=production node ./node_modules/mage-obsidian/dist/cli/buildThemes.js --theme all",
+        "build:theme": "NODE_ENV=production node ./node_modules/mage-obsidian/dist/cli/buildThemes.js --theme"
     },
     "keywords": [],
     "author": "",
@@ -30,7 +30,7 @@
         "dotenv": "^16.6.1",
         "esbuild-register": "^3.6.0",
         "ky": "^1.14.2",
-        "mage-obsidian": "^2.0.0",
+        "mage-obsidian": "^2.1.0",
         "pinia": "^3.0.4",
         "pinia-plugin-persistedstate": "^4.7.1",
         "postcss": "^8.5.6",

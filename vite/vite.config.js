@@ -7,6 +7,7 @@ import moduleResolver from "mage-obsidian/core/moduleResolver.ts"
 import {getResolverPlugins, ensurePrecompiled, getFsAllowList} from 'mage-obsidian/vite/sharedPlugins.ts';
 import themeSourceWatcher from "mage-obsidian/vite/themeSourceWatcher.ts";
 import magentoHrmRewrite from "mage-obsidian/vite/magentoHrmRewrite.ts";
+import resolveVueAlias from "mage-obsidian/vite/vueAlias.ts";
 import path from "path";
 import dotenv from 'dotenv';
 import tailwindcss from '@tailwindcss/vite'
@@ -17,10 +18,6 @@ const CURRENT_THEME = process.env.CURRENT_THEME;
 
 let currentTheme = configResolver.getThemeDefinition(CURRENT_THEME);
 
-let vueFileExt = (process.env.NODE_ENV !== 'production') ? '.js' : '.prod.js';
-
-let vueFileName = 'vue.esm-browser' + vueFileExt;
-let aliasVueFileName = `vue/dist/${vueFileName}`
 const outputDir = configResolver.getOutputDirFromTheme(currentTheme.src);
 
 const rootDir = path.resolve(__dirname, '..');
@@ -64,7 +61,12 @@ export default defineConfig(async () => {
     // node_modules. Aliasing each to its resolved node path (like vue) makes
     // `import 'pinia'` / '@vueuse/core' work everywhere and resolve to a single
     // shared instance, instead of only resolving from theme-level files.
-    const exposedAlias = {vue: aliasVueFileName};
+    const exposedAlias = {
+        vue: resolveVueAlias({
+            runtimeOnly: themeConfig.vue?.runtimeOnly,
+            production: MODE === 'production',
+        }),
+    };
     if (themeConfig.exposeNpmPackages) {
         themeConfig.exposeNpmPackages.forEach((lib) => {
             inputs[resolveLibPath(lib.exposePath)] = MODE === 'production' ? lib.package : resolveNodePath(lib.exposePath);

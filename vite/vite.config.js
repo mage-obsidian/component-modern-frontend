@@ -89,6 +89,10 @@ export default defineConfig(async () => {
         ],
         build: {
             cssCodeSplit: false,
+            // Emit .vite/manifest.json so the PHP side can resolve each island's
+            // static dependency graph and modulepreload it, collapsing the serial
+            // import chain (component → customer-data → section-store → store → pinia).
+            manifest: true,
             rollupOptions: {
                 input: {
                     ...inputs

@@ -23,3 +23,7 @@ storeDir: /home/www/.pnpm-store-jpu
 # dev:theme`, which `zento vite` invokes). Reinstalls aborts with no TTY and
 # the dev server must just start against the already-installed deps.
 verifyDepsBeforeRun: false
+
+overrides:
+    postcss: '>=8.5.18'
+    brace-expansion: '^2.1.3'

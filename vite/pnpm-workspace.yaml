@@ -11,6 +11,8 @@ allowBuilds:
 # `pnpm install`. This is a local dev environment, so the age gate is off.
 minimumReleaseAge: 0
 
+pmOnFail: ignore
+
 # node_modules lives in a bind mount; keep the store on the container's own
 # filesystem and pin it so EVERY pnpm invocation agrees on the store path.
 # Without this, an install run with a different store dir makes the next

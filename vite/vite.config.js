@@ -83,6 +83,12 @@ export default defineConfig(async () => {
     return {
         root: './',
         base: './',
+        // `vite build` always runs with mode=production, so import.meta.env.DEV is
+        // false even for a developer-mode storefront. Development-only guards read
+        // this instead, off the same signal that picks Vue's dev build.
+        define: {
+            __MAGE_OBSIDIAN_DEV__: MODE !== 'production',
+        },
         plugins: [
             ...getResolverPlugins(),
             themeSourceWatcher(CURRENT_THEME),

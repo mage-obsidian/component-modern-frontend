@@ -23,9 +23,9 @@
         }
     ],
     "require": {
-        "mage-obsidian/module-modern-frontend": "^2.11",
+        "mage-obsidian/module-modern-frontend": "^2.12",
         "mage-obsidian/module-modern-frontend-cli": "^2.4",
-        "mage-obsidian/module-modern-frontend-twig": "^2.3"
+        "mage-obsidian/module-modern-frontend-twig": "^2.4"
     },
     "type": "magento2-component",
     "license": [

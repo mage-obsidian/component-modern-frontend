@@ -64,8 +64,8 @@ importers:
         specifier: ^1.14.2
         version: 1.14.3
       mage-obsidian:
-        specifier: ^2.7.1
-        version: 2.7.1
+        specifier: ^2.7.2
+        version: 2.7.2
       pinia:
         specifier: ^3.0.4
         version: 3.0.4(typescript@5.9.3)(vue@3.5.38(typescript@5.9.3))
@@ -960,8 +960,8 @@ packages:
     resolution: {integrity: sha512-NXYBzinNrblfraPGyrbPoD19C1h9lfI/1mzgWYvXUTe414Gz/X1FD2XBZSZM7rRTrMA8JL3OtAaGifrIKhQ5yQ==}
     engines: {node: '>= 12.0.0'}
 
-  mage-obsidian@2.7.1:
-    resolution: {integrity: sha512-z3gL/Y1HaSddH5hTxtiB9kvX0M6uIUkOQ6z3SyUqAE7ZHHcTYaOn6Tq7rjLNFAEA4/4ECHV4huWmht3qeumwtQ==}
+  mage-obsidian@2.7.2:
+    resolution: {integrity: sha512-aGtlJESTI/oXFeb67l+cnHpwEK6J108X4fkLYYQ5o/Civa9/Z1c5QlmRiwbZaQF86j+o5fnAYiL9QCr9YqZhfg==}
     hasBin: true
 
   magic-string@0.30.21:
@@ -1953,7 +1953,7 @@ snapshots:
       lightningcss-win32-arm64-msvc: 1.32.0
       lightningcss-win32-x64-msvc: 1.32.0
 
-  mage-obsidian@2.7.1:
+  mage-obsidian@2.7.2:
     dependencies:
       beasties: 0.4.2
       chalk: 5.6.2

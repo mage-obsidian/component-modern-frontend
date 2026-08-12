@@ -21,22 +21,8 @@ let currentTheme = configResolver.getThemeDefinition(CURRENT_THEME);
 const outputDir = configResolver.getOutputDirFromTheme(currentTheme.src);
 
 const rootDir = path.resolve(__dirname, '..');
-const LIB_PATH = configResolver.getMagentoConfig().LIB_PATH;
 const MODE = process.env.NODE_ENV;
-
-function resolveLibPath(lib) {
-    return path.join(LIB_PATH, lib);
-}
-
-function resolveNodePath(packageName) {
-    try {
-        const resolvedPath = import.meta.resolve(packageName);
-        return resolvedPath.replace('file://', '');
-    } catch (error) {
-        console.error(`No se pudo resolver el paquete: ${packageName}`);
-        throw error;
-    }
-}
+const { resolveLibPath, resolveNodePath } = configResolver;
 
 // Env vars are strings: 'false' is truthy, so a naive check would always pick
 // 'wss'. Treat only explicit truthy tokens as secure.

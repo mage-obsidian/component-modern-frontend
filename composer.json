@@ -23,7 +23,7 @@
         }
     ],
     "require": {
-        "mage-obsidian/module-modern-frontend": "^2.12",
+        "mage-obsidian/module-modern-frontend": "^2.16",
         "mage-obsidian/module-modern-frontend-cli": "^2.4",
         "mage-obsidian/module-modern-frontend-twig": "^2.5"
     },

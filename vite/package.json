@@ -24,7 +24,7 @@
         "deepmerge": "^4.3.1",
         "dotenv": "^16.6.1",
         "esbuild-register": "^3.6.0",
-        "mage-obsidian": "^2.9",
+        "mage-obsidian": "^2.9.1",
         "pinia": "^3.0.4",
         "postcss": "^8.5.24",
         "postcss-import": "^16.1.1",

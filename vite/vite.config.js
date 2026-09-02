@@ -76,7 +76,7 @@ export default defineConfig(async () => {
             __MAGE_OBSIDIAN_DEV__: MODE !== 'production',
         },
         plugins: [
-            ...getResolverPlugins(),
+            ...getResolverPlugins({ themeName: CURRENT_THEME }),
             themeSourceWatcher(CURRENT_THEME),
             vue(),
             magentoHrmRewrite(),

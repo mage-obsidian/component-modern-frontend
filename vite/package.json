@@ -12,6 +12,9 @@
     "license": "MIT",
     "description": "",
     "type": "module",
+    "engines": {
+        "node": ">=22.13"
+    },
     "dependencies": {
         "@heroicons/vue": "^2.2.0",
         "@tailwindcss/node": "^4.3.1",

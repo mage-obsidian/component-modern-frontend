@@ -5,6 +5,9 @@ pmOnFail: ignore
 
 verifyDepsBeforeRun: false
 
+minimumReleaseAgeExclude:
+    - mage-obsidian
+
 overrides:
     postcss: '>=8.5.18'
     brace-expansion: '^2.1.3'

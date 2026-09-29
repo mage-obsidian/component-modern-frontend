@@ -1,3 +1,7 @@
+// This file is part of the MageObsidian - ModernFrontend project.
+//
+// SPDX-FileCopyrightText: 2024 Jeanmarcos Juarez
+// SPDX-License-Identifier: MIT
 import {defineConfig} from 'vite';
 import vue from '@vitejs/plugin-vue';
 import themeResolver from "mage-obsidian/core/themeResolverSync.ts";

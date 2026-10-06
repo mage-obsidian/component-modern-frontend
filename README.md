@@ -1,7 +1,9 @@
+> **Read-only mirror.** This package is developed in [mage-obsidian/framework](https://github.com/mage-obsidian/framework) and copied here automatically. Open issues and pull requests there.
+
 # MageObsidian — Vite Build Harness
 
 [![Latest Version](https://img.shields.io/packagist/v/mage-obsidian/component-modern-frontend.svg?style=flat-square)](https://packagist.org/packages/mage-obsidian/component-modern-frontend)
-[![CI](https://github.com/mage-obsidian/component-modern-frontend/actions/workflows/ci.yml/badge.svg)](https://github.com/mage-obsidian/component-modern-frontend/actions/workflows/ci.yml)
+[![CI](https://github.com/mage-obsidian/framework/actions/workflows/ci.yml/badge.svg)](https://github.com/mage-obsidian/framework/actions/workflows/ci.yml)
 [![License](https://img.shields.io/packagist/l/mage-obsidian/component-modern-frontend.svg?style=flat-square)](https://packagist.org/packages/mage-obsidian/component-modern-frontend)
 
 [![Star MageObsidian](https://img.shields.io/github/stars/mage-obsidian/module-modern-frontend?style=flat-square&label=Star%20the%20core%20repo&logo=github)](https://github.com/mage-obsidian/module-modern-frontend)

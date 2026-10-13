@@ -12,6 +12,7 @@ import {getResolverPlugins, ensurePrecompiled, getFsAllowList} from 'mage-obsidi
 import themeSourceWatcher from "mage-obsidian/vite/themeSourceWatcher.ts";
 import magentoHrmRewrite from "mage-obsidian/vite/magentoHrmRewrite.ts";
 import resolveVueAlias from "mage-obsidian/vite/vueAlias.ts";
+import subresourceIntegrity from "mage-obsidian/vite/subresourceIntegrity.ts";
 import path from "path";
 import dotenv from 'dotenv';
 import tailwindcss from '@tailwindcss/vite'
@@ -91,6 +92,7 @@ export default defineConfig(async () => {
                 }
             },
             tailwindcss(),
+            subresourceIntegrity(),
         ],
         build: {
             cssCodeSplit: false,
